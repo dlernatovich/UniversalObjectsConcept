@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">UniversalObjects</string>
+    <string name="text_required_field">Required field</string>
+    <string name="title_activity_create_user">CreateUserActivity</string>
+    <string name="text_users">Users</string>
+    <string name="text_create_user">Create user</string>
+</resources>
