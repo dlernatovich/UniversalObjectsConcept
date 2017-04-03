@@ -21,7 +21,7 @@ import com.artlite.baseobjects.views.abs.AbsConditionView;
 import com.artlite.bslibrary.ui.view.BSView;
 
 /**
- * Created by dlernatovich on 4/3/2017.
+ * Base implementation of the {@link AbsConditionView}
  */
 
 public class BaseConditionView extends BSView implements AbsConditionView {
@@ -29,7 +29,7 @@ public class BaseConditionView extends BSView implements AbsConditionView {
     /**
      * Requestor {@link Class}
      */
-    private Class requestor;
+    private Class requester;
 
     /**
      * Instance of {@link AdapteredView}
@@ -73,18 +73,18 @@ public class BaseConditionView extends BSView implements AbsConditionView {
      */
     @NonNull
     @Override
-    public Class getRequestor() {
-        return this.requestor;
+    public Class getRequester() {
+        return this.requester;
     }
 
     /**
      * Method which provide the setting of the requestor {@link Class}
      *
-     * @param requestor instance of {@link Class}
+     * @param requester instance of {@link Class}
      */
     @Override
-    public void setRequestor(@NonNull Class requestor) {
-        this.requestor = requestor;
+    public void setRequester(@NonNull Class requester) {
+        this.requester = requester;
     }
 
     /**
@@ -97,7 +97,7 @@ public class BaseConditionView extends BSView implements AbsConditionView {
     @Nullable
     @Override
     public <T extends AbsCondition> T getCondition(@Nullable AbsUniversalObject object) {
-        return ConditionManager.getInstance().getCondition(getRequestor(), object);
+        return ConditionManager.getInstance().getCondition(getRequester(), object);
     }
 
     /**
@@ -109,7 +109,7 @@ public class BaseConditionView extends BSView implements AbsConditionView {
     @Nullable
     @Override
     public <T> T getObject(@Nullable AbsUniversalObject object) {
-        return ConditionManager.getInstance().getObject(getRequestor(), object);
+        return ConditionManager.getInstance().getObject(getRequester(), object);
     }
 
     /**
@@ -126,6 +126,62 @@ public class BaseConditionView extends BSView implements AbsConditionView {
     /**
      * Method which provide the initialize of the recycler view
      *
+     * @param requester requester {@link Class}
+     */
+    @Override
+    public void init(@NonNull Class requester) {
+        getAdapteredView().init();
+        setRequester(requester);
+    }
+
+    /**
+     * Method which provide the initialize of the recycler view
+     *
+     * @param layoutManager
+     * @param requester     requester {@link Class}
+     */
+    @Override
+    public void init(@NonNull RecyclerView.LayoutManager layoutManager,
+                     @NonNull Class requester) {
+        getAdapteredView().init(layoutManager);
+        setRequester(requester);
+    }
+
+    /**
+     * Method which provide the initialize of the recycler view
+     *
+     * @param layoutManager layout manager
+     * @param requester     requester {@link Class}
+     * @param callback
+     */
+    @Override
+    public void init(@NonNull RecyclerView.LayoutManager layoutManager,
+                     @NonNull Class requester,
+                     @Nullable OnAdapteredBaseCallback callback) {
+        getAdapteredView().init(layoutManager, callback);
+        setRequester(requester);
+    }
+
+    /**
+     * Method which provide the initialize of the recycler view
+     *
+     * @param layoutManager   layout manager
+     * @param requester       requester {@link Class}
+     * @param callback        action callback
+     * @param refreshCallback
+     */
+    @Override
+    public void init(@NonNull RecyclerView.LayoutManager layoutManager,
+                     @NonNull Class requester,
+                     @Nullable OnAdapteredBaseCallback callback,
+                     @Nullable OnAdapteredRefreshCallback refreshCallback) {
+        getAdapteredView().init(layoutManager, callback, refreshCallback);
+        setRequester(requester);
+    }
+
+    /**
+     * Method which provide the initialize of the recycler view
+     *
      * @param layoutManager   layout manager
      * @param callback        action callback
      * @param refreshCallback
@@ -133,10 +189,12 @@ public class BaseConditionView extends BSView implements AbsConditionView {
      */
     @Override
     public void init(@NonNull RecyclerView.LayoutManager layoutManager,
+                     @NonNull Class requester,
                      @Nullable OnAdapteredBaseCallback callback,
                      @Nullable OnAdapteredRefreshCallback refreshCallback,
                      @Nullable OnAdapteredPagingCallback pagingCallback) {
         getAdapteredView().init(layoutManager, callback, refreshCallback, pagingCallback);
+        setRequester(requester);
     }
 
     /**
@@ -156,6 +214,6 @@ public class BaseConditionView extends BSView implements AbsConditionView {
     protected void onCreateView() {
         this.adapteredView = (AdapteredView) findViewById(R.id.view_adaptered);
         init(new GridLayoutManager(getContext(), 1,
-                LinearLayoutManager.VERTICAL, false), null, null, null);
+                LinearLayoutManager.VERTICAL, false), getRequester(), null, null, null);
     }
 }

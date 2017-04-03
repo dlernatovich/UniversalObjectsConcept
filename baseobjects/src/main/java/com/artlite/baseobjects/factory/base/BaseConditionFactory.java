@@ -17,11 +17,11 @@ public abstract class BaseConditionFactory implements AbsConditionFactory {
     /**
      * Method which provide the getting of the requestor {@link Class}
      *
-     * @return instance of requestor {@link Class}
+     * @return instance of requester {@link Class}
      */
     @NonNull
     @Override
-    public abstract Class getRequestor();
+    public abstract Class getRequester();
 
     /**
      * Method which provide the getting of the {@link AbsCondition} from
@@ -34,21 +34,21 @@ public abstract class BaseConditionFactory implements AbsConditionFactory {
     @Override
     public <T extends AbsCondition> T getCondition(@NonNull Context context,
                                                    @Nullable AbsUniversalObject object) {
-        return this.getCondition(context, getRequestor(), object);
+        return this.getCondition(context, getRequester(), object);
     }
 
     /**
      * Method which provide the getting of the {@link AbsCondition} from
      *
      * @param context   instance of {@link Context}
-     * @param requestor instance of requestor {@link Class}
+     * @param requester instance of requestor {@link Class}
      * @param object    instance of {@link AbsUniversalObject}
      * @return instance of {@link AbsCondition}
      */
     @Nullable
     @Override
     public abstract <T extends AbsCondition> T getCondition(@NonNull Context context,
-                                                            @Nullable Class requestor,
+                                                            @Nullable Class requester,
                                                             @Nullable AbsUniversalObject object);
 
     /**
@@ -62,20 +62,20 @@ public abstract class BaseConditionFactory implements AbsConditionFactory {
     @Override
     public <T> T getObject(@NonNull Context context,
                            @Nullable AbsUniversalObject object) {
-        return getObject(context, getRequestor(), object);
+        return getObject(context, getRequester(), object);
     }
 
     /**
      * Method which provide the getting {@link Object} from
      *
      * @param context   instance of {@link Context}
-     * @param requestor instance of requestor {@link Class}
+     * @param requester instance of requestor {@link Class}
      * @param object    instance of {@link AbsUniversalObject}
      * @return instance of {@link Object}
      */
     @Nullable
     @Override
     public abstract <T> T getObject(@NonNull Context context,
-                                    @Nullable Class requestor,
+                                    @Nullable Class requester,
                                     @Nullable AbsUniversalObject object);
 }

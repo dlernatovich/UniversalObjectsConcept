@@ -10,7 +10,6 @@ import com.artlite.baseobjects.models.abs.AbsUniversalObject;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Class which provide the functional for {@link ConditionManager}
@@ -41,7 +40,7 @@ public interface AbsConditionManager {
      * @return instance of {@link List} of the {@link AbsConditionFactory}
      */
     @NonNull
-    List<AbsConditionFactory> getFactories(@Nullable Class requester);
+    List<AbsConditionFactory> getFactories(@Nullable final Class requester);
 
     /**
      * Method which provide the getting of the {@link AbsCondition} for requester {@link Class}
@@ -51,7 +50,7 @@ public interface AbsConditionManager {
      * @return instance of {@link AbsCondition}
      */
     @Nullable
-    <T extends AbsCondition> T getCondition(@Nullable Class requester,
+    <T extends AbsCondition> T getCondition(@Nullable final Class requester,
                                             @Nullable final AbsUniversalObject object);
 
     /**
@@ -63,7 +62,7 @@ public interface AbsConditionManager {
      * @return instance of {@link Object}
      */
     @Nullable
-    <T> T getObject(@Nullable Class requester,
+    <T> T getObject(@Nullable final Class requester,
                     @Nullable final AbsUniversalObject object);
 
 }

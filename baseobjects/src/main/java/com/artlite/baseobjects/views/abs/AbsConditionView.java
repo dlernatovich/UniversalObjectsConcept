@@ -24,14 +24,14 @@ public interface AbsConditionView {
      * @return instance of requestor {@link Class}
      */
     @NonNull
-    Class getRequestor();
+    Class getRequester();
 
     /**
      * Method which provide the setting of the requestor {@link Class}
      *
-     * @param requestor instance of {@link Class}
+     * @param requester instance of {@link Class}
      */
-    void setRequestor(@NonNull final Class requestor);
+    void setRequester(@NonNull final Class requester);
 
     /**
      * Method which provide the getting of the {@link AbsCondition} for
@@ -65,11 +65,50 @@ public interface AbsConditionView {
     /**
      * Method which provide the initialize of the recycler view
      *
+     * @param requester requester {@link Class}
+     */
+    void init(@NonNull final Class requester);
+
+    /**
+     * Method which provide the initialize of the recycler view
+     *
+     * @param requester requester {@link Class}
+     */
+    void init(@NonNull final RecyclerView.LayoutManager layoutManager,
+              @NonNull final Class requester);
+
+    /**
+     * Method which provide the initialize of the recycler view
+     *
+     * @param layoutManager layout manager
+     * @param requester     requester {@link Class}
+     */
+    void init(@NonNull final RecyclerView.LayoutManager layoutManager,
+              @NonNull final Class requester,
+              @Nullable final OnAdapteredBaseCallback callback);
+
+    /**
+     * Method which provide the initialize of the recycler view
+     *
+     * @param layoutManager layout manager
+     * @param requester     requester {@link Class}
+     * @param callback      action callback
+     */
+    void init(@NonNull final RecyclerView.LayoutManager layoutManager,
+              @NonNull final Class requester,
+              @Nullable final OnAdapteredBaseCallback callback,
+              @Nullable final OnAdapteredRefreshCallback refreshCallback);
+
+    /**
+     * Method which provide the initialize of the recycler view
+     *
      * @param layoutManager  layout manager
+     * @param requester      requester {@link Class}
      * @param callback       action callback
      * @param pagingCallback paging callback
      */
     void init(@NonNull final RecyclerView.LayoutManager layoutManager,
+              @NonNull final Class requester,
               @Nullable final OnAdapteredBaseCallback callback,
               @Nullable final OnAdapteredRefreshCallback refreshCallback,
               @Nullable final OnAdapteredPagingCallback pagingCallback);

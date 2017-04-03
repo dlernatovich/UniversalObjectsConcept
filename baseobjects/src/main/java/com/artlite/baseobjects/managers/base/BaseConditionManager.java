@@ -29,7 +29,7 @@ public abstract class BaseConditionManager extends BSBaseManager implements AbsC
     /**
      * Default constructor
      *
-     * @param context
+     * @param context instance of {@link Context}
      */
     public BaseConditionManager(@NonNull Context context) {
         super(context);

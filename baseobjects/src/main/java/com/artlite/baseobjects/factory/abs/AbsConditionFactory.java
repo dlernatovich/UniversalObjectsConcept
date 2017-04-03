@@ -19,7 +19,7 @@ public interface AbsConditionFactory {
      * @return instance of requestor {@link Class}
      */
     @NonNull
-    Class getRequestor();
+    Class getRequester();
 
     /**
      * Method which provide the getting of the {@link AbsCondition} from
@@ -63,14 +63,14 @@ public interface AbsConditionFactory {
      * Method which provide the getting {@link Object} from
      *
      * @param context   instance of {@link Context}
-     * @param requestor instance of requestor {@link Class}
+     * @param requester instance of requestor {@link Class}
      * @param object    instance of {@link AbsUniversalObject}
      * @param <T>       class type
      * @return instance of {@link Object}
      */
     @Nullable
     <T extends Object> T getObject(@NonNull final Context context,
-                                   @Nullable final Class requestor,
+                                   @Nullable final Class requester,
                                    @Nullable final AbsUniversalObject object);
 
 }

@@ -2,13 +2,11 @@ package com.artlite.universalobjects.ui.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.artlite.adapteredrecyclerview.anotations.FindViewBy;
-import com.artlite.adapteredrecyclerview.callbacks.OnAdapteredRefreshCallback;
 import com.artlite.adapteredrecyclerview.core.AdapteredView;
 import com.artlite.adapteredrecyclerview.helpers.AdapteredInjector;
 import com.artlite.bslibrary.ui.activity.BSActivity;
@@ -36,9 +34,6 @@ public class MainActivity extends BSActivity {
     protected void onCreateActivity(@Nullable final Bundle bundle) {
         setTitle(getString(R.string.text_users));
         AdapteredInjector.inject(this);
-        recyclerView.init(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false),
-                null, refreshCallback);
-        recyclerView.setIsNeedResfresh(true);
     }
 
     /**
@@ -91,79 +86,4 @@ public class MainActivity extends BSActivity {
             }
         }
     }
-
-    //==============================================================================================
-    //                                GET OBJECT FROM DATABASE
-    //==============================================================================================
-
-    //==============================================================================================
-    //                                      CALLBACKS
-    //==============================================================================================
-
-//    /**
-//     * Adaptered recycle callback
-//     */
-//    private final OnAdapteredBaseCallback adapteredCallback =
-//            new OnAdapteredBaseCallback<ConditionListUser.Object>() {
-//                /**
-//                 * Method which provide the action when user press on the channel object
-//                 *
-//                 * @param index  current index
-//                 * @param object current object
-//                 */
-//                @Override
-//                public void onItemClick(int index,
-//                                        @NonNull final ConditionListUser.Object object) {
-//                    if ((object != null) && (object.getUser() != null)) {
-//                        startActivity(CreateUserActivity.class,
-//                                new OnStartActivityCallback() {
-//                                    @Override
-//                                    public void onPreExecute(@NonNull Intent intent) {
-//                                        intent.putExtra(CreateUserActivity.K_USER_KEY, object.getUser());
-//                                    }
-//                                });
-//                    }
-//                }
-//
-//                /**
-//                 * Method which provide the action when user doing the long press on item
-//                 *
-//                 * @param index  index
-//                 * @param object object
-//                 */
-//                @Override
-//                public void onItemLongClick(int index,
-//                                            @NonNull ConditionListUser.Object object) {
-//
-//                }
-//
-//                /**
-//                 * Method which provide the action listening
-//                 *
-//                 * @param recycleEvent event
-//                 * @param index        index
-//                 * @param object       object
-//                 */
-//                @Override
-//                public void onActionReceived(@NonNull RecycleEvent recycleEvent,
-//                                             int index,
-//                                             @NonNull ConditionListUser.Object object) {
-//
-//                }
-//            };
-
-    /**
-     * Adaptered refresh callback
-     */
-    private final OnAdapteredRefreshCallback refreshCallback =
-            new OnAdapteredRefreshCallback() {
-                /**
-                 * Method which provide the swipe down to refresh listening
-                 */
-                @Override
-                public void onRefreshData() {
-                    recyclerView.hideRefresh();
-                }
-            };
-
 }
