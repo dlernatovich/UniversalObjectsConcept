@@ -66,7 +66,7 @@ public final class ConditionUserList extends BaseCondition<BaseObject, User> {
      */
     @Override
     public BaseObject apply(@Nullable User object) {
-        return null;
+        return new RecycleObject(object);
     }
 
     /**
@@ -77,7 +77,7 @@ public final class ConditionUserList extends BaseCondition<BaseObject, User> {
     @NonNull
     @Override
     public ConditionPriority getPriority() {
-        return null;
+        return ConditionPriority.HIGHT;
     }
 
     //==============================================================================================
@@ -90,8 +90,8 @@ public final class ConditionUserList extends BaseCondition<BaseObject, User> {
     private static final class RecycleObject extends BaseObject {
 
         private final WeakReference<User> reference;
-        private String fullName;
-        private String description;
+        protected String fullName;
+        protected String description;
 
         /**
          * Constructor which provide create {@link RecycleObject} from
@@ -124,7 +124,47 @@ public final class ConditionUserList extends BaseCondition<BaseObject, User> {
          */
         @Override
         public BaseRecyclerItem getRecyclerItem(@NonNull Context context) {
-            return null;
+            return new RecycleItem(context);
+        }
+    }
+
+    private static final class RecycleItem extends BaseRecyclerItem<RecycleObject> {
+
+        /**
+         * Default constructor
+         *
+         * @param context context to set
+         */
+        public RecycleItem(@NonNull Context context) {
+            super(context);
+        }
+
+        /**
+         * Method which provide the setting up for the current recycler item
+         *
+         * @param baseObject current object
+         */
+        @Override
+        public void setUp(@NonNull RecycleObject baseObject) {
+
+        }
+
+        /**
+         * Method which provide to getting of the layout ID
+         *
+         * @return layout ID
+         */
+        @Override
+        protected int getLayoutId() {
+            return 0;
+        }
+
+        /**
+         * Method which provide the action when view will create
+         */
+        @Override
+        protected void onCreateView() {
+
         }
     }
 }
