@@ -1,5 +1,6 @@
 package com.artlite.baseobjects.models.abs;
 
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * Created by dlernatovich on 3/30/2017.
  */
 
-public interface AbsUniversalObject<T> {
+public interface AbsUniversalObject<T> extends Parcelable {
 
     /**
      * Method which provide the getting id for the {@link AbsUniversalObject}

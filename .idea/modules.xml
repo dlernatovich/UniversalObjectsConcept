@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/UniversalObjects.iml" filepath="$PROJECT_DIR$/UniversalObjects.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UniversalObjectsConcept.iml" filepath="$PROJECT_DIR$/UniversalObjectsConcept.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/baseobjects/baseobjects.iml" filepath="$PROJECT_DIR$/baseobjects/baseobjects.iml" />
     </modules>
