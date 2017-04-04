@@ -65,4 +65,14 @@ public interface AbsConditionManager {
     <T> T getObject(@Nullable final Class requester,
                     @Nullable final AbsUniversalObject object);
 
+    /**
+     * Method which provide the registering of the {@link AbsConditionFactory}
+     *
+     * @param requester {@link Class} instance of the requester
+     * @param factory   instance of {@link AbsConditionFactory}
+     * @return adding result
+     */
+    boolean register(@Nullable final Class requester,
+                     @Nullable final AbsConditionFactory factory);
+
 }

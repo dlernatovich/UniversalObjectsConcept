@@ -23,6 +23,7 @@ import java.util.List;
 public final class User extends BaseUniversalObject<User.Object> implements SQModel {
 
     private static final String K_TABLE_NAME = User.class.getSimpleName();
+    public static final String K_TYPE = User.class.getSimpleName();
 
     //==============================================================================================
     //                                          FIELDS
@@ -50,7 +51,7 @@ public final class User extends BaseUniversalObject<User.Object> implements SQMo
     public User() {
         super();
         setTags(Arrays.asList("user", "resident evil"));
-        setType(K_TABLE_NAME);
+        setType(K_TYPE);
     }
 
     /**
@@ -70,6 +71,15 @@ public final class User extends BaseUniversalObject<User.Object> implements SQMo
      */
     public User(@Nullable final User.Object object) {
         super(object);
+    }
+
+    /**
+     * Method which provide the create {@link AbsUniversalObject} from {@link Cursor}
+     *
+     * @param cursor instance of {@link Cursor}
+     */
+    public User(@Nullable final Cursor cursor) {
+        apply(cursor);
     }
 
     /**

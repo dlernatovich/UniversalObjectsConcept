@@ -6,8 +6,8 @@
     android:orientation="vertical"
     tools:context="com.artlite.universalobjects.ui.activities.CreateUserActivity">
 
-    <com.artlite.adapteredrecyclerview.core.AdapteredView
-        android:id="@+id/view_adaptered"
+    <com.artlite.baseobjects.views.impl.ConditionView
+        android:id="@+id/view_condition"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

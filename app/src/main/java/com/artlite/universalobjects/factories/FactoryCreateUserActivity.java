@@ -7,16 +7,16 @@ import android.support.annotation.Nullable;
 import com.artlite.baseobjects.factory.base.BaseConditionFactory;
 import com.artlite.baseobjects.models.abs.AbsCondition;
 import com.artlite.baseobjects.models.abs.AbsUniversalObject;
-import com.artlite.universalobjects.conditions.ConditionUserList;
+import com.artlite.bslibrary.helpers.validation.BSValidationHelper;
+import com.artlite.universalobjects.conditions.ConditionCreateUser;
 import com.artlite.universalobjects.models.User;
-import com.artlite.universalobjects.ui.activities.MainActivity;
+import com.artlite.universalobjects.ui.activities.CreateUserActivity;
 
 /**
- * Created by dlernatovich on 4/3/2017.
+ * Factory which provide the functional for the {@link CreateUserActivity}
  */
 
-public final class FactoryMainActivity extends BaseConditionFactory {
-
+public final class FactoryCreateUserActivity extends BaseConditionFactory {
     /**
      * Method which provide the getting of the requestor {@link Class}
      *
@@ -25,7 +25,7 @@ public final class FactoryMainActivity extends BaseConditionFactory {
     @NonNull
     @Override
     public Class getRequester() {
-        return MainActivity.class;
+        return CreateUserActivity.class;
     }
 
     /**
@@ -41,9 +41,9 @@ public final class FactoryMainActivity extends BaseConditionFactory {
     public <T extends AbsCondition> T getCondition(@NonNull Context context,
                                                    @Nullable Class requester,
                                                    @Nullable AbsUniversalObject object) {
-        if (requester == MainActivity.class) {
-            if (object.getType().equals(User.K_TYPE)) {
-                return (T) new ConditionUserList((User) object);
+        if (requester == CreateUserActivity.class) {
+            if (BSValidationHelper.isEmpty(object)) {
+                return (T) new ConditionCreateUser((User) null);
             }
         }
         return null;

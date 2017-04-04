@@ -75,7 +75,9 @@ public abstract class BaseConditionFactory implements AbsConditionFactory {
      */
     @Nullable
     @Override
-    public abstract <T> T getObject(@NonNull Context context,
-                                    @Nullable Class requester,
-                                    @Nullable AbsUniversalObject object);
+    public <T> T getObject(@NonNull Context context,
+                           @Nullable Class requester,
+                           @Nullable AbsUniversalObject object) {
+        return (T) getCondition(context, requester, object).getObject();
+    }
 }

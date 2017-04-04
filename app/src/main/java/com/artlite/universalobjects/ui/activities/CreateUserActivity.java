@@ -8,12 +8,17 @@ import android.support.v7.widget.GridLayoutManager;
 
 import com.artlite.adapteredrecyclerview.anotations.FindViewBy;
 import com.artlite.adapteredrecyclerview.callbacks.OnAdapteredBaseCallback;
-import com.artlite.adapteredrecyclerview.core.AdapteredView;
 import com.artlite.adapteredrecyclerview.events.RecycleEvent;
 import com.artlite.adapteredrecyclerview.helpers.AdapteredInjector;
 import com.artlite.adapteredrecyclerview.models.BaseObject;
+import com.artlite.baseobjects.views.impl.ConditionView;
+import com.artlite.bslibrary.helpers.validation.BSValidationHelper;
+import com.artlite.bslibrary.managers.BSThreadManager;
 import com.artlite.bslibrary.ui.activity.BSActivity;
+import com.artlite.sqlib.core.SQDatabase;
 import com.artlite.universalobjects.R;
+import com.artlite.universalobjects.conditions.ConditionCreateUser;
+import com.artlite.universalobjects.models.User;
 
 /**
  * {@link Activity} which provide the create
@@ -25,8 +30,16 @@ public class CreateUserActivity extends BSActivity {
      */
     public static final String K_USER_KEY = "CreateUserActivity:K_USER_KEY";
 
-    @FindViewBy(id = R.id.view_adaptered)
-    private AdapteredView adapteredView;
+    /**
+     * Instance of {@link RecycleEvent}
+     */
+    public static final RecycleEvent K_CREATE_USER = new RecycleEvent(100);
+
+    /**
+     * Instance of {@link ConditionView}
+     */
+    @FindViewBy(id = R.id.view_condition)
+    private ConditionView conditionView;
 
     /**
      * Method which provide the getting of the layout id for {@link CreateUserActivity}
@@ -45,9 +58,10 @@ public class CreateUserActivity extends BSActivity {
     protected void onCreateActivity(@Nullable final Bundle bundle) {
         setTitle(getString(R.string.text_create_user));
         AdapteredInjector.inject(this);
-        adapteredView.init(new GridLayoutManager(this, 1),
+        conditionView.init(new GridLayoutManager(this, 1), CreateUserActivity.class,
                 adapteredCallback);
-        adapteredView.setIsNeedResfresh(false);
+        conditionView.getAdapteredView().setIsNeedResfresh(false);
+        init();
     }
 
     /**
@@ -68,6 +82,23 @@ public class CreateUserActivity extends BSActivity {
     @Override
     protected boolean isNeedBackButton() {
         return true;
+    }
+
+    /**
+     * Method which provide the initialize of the {@link CreateUserActivity}
+     */
+    protected void init() {
+        background(new BSThreadManager.OnThreadCallback() {
+            @Override
+            public void onExecute() {
+                if (conditionView != null) {
+                    final BaseObject object = conditionView.getObject(null);
+                    if (object != null) {
+                        conditionView.getAdapteredView().set(object);
+                    }
+                }
+            }
+        });
     }
 
     //==============================================================================================
@@ -112,6 +143,18 @@ public class CreateUserActivity extends BSActivity {
                 public void onActionReceived(@NonNull RecycleEvent recycleEvent,
                                              int index,
                                              @NonNull BaseObject object) {
+                    if (recycleEvent.equals(K_CREATE_USER)) {
+                        if (!BSValidationHelper.isEmpty(object)) {
+                            ConditionCreateUser.RecycleObject recycleObject =
+                                    (ConditionCreateUser.RecycleObject) object;
+                            final User user = new User(
+                                    recycleObject.name,
+                                    recycleObject.lastName,
+                                    recycleObject.description);
+                            SQDatabase.insert(user);
+                            onBackPressed();
+                        }
+                    }
                 }
             };
 }

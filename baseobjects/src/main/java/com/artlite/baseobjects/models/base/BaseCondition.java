@@ -30,54 +30,7 @@ public abstract class BaseCondition<T, K extends AbsUniversalObject>
      */
     public BaseCondition(@Nullable final K object) {
         this();
-        apply(object);
+        T result = apply(object);
+        setObject(result);
     }
-
-    /**
-     * Method which provide the getting of the {@link String} value of the id for
-     * the {@link AbsCondition}
-     *
-     * @return {@link String} value of the id for the {@link AbsCondition}
-     */
-    @NonNull
-    @Override
-    public abstract String getId();
-
-    /**
-     * Method which provide the setting of the {@link String} value of the id
-     * for the {@link AbsCondition}
-     *
-     * @param id {@link String} value of the id for the {@link AbsCondition}
-     */
-    @Override
-    public abstract void setId(@NonNull String id);
-
-    /**
-     * Method which provide the getting {@link Object} for the {@link AbsCondition}
-     *
-     * @return instance of the {@link Object} for the {@link AbsCondition}
-     */
-    @Nullable
-    @Override
-    public abstract T getObject();
-
-    /**
-     * Method which provide the applying functional from {@link AbsUniversalObject}
-     * for the {@link AbsCondition}
-     *
-     * @param object instance of the {@link AbsUniversalObject}
-     * @return instance of {@link Object}
-     */
-    @Override
-    public abstract T apply(@Nullable K object);
-
-    /**
-     * Method which provide the getting of the {@link ConditionPriority} for the {@link AbsCondition}
-     *
-     * @return {@link ConditionPriority} for the {@link AbsCondition}
-     */
-    @NonNull
-    @Override
-    public abstract ConditionPriority getPriority();
-
 }

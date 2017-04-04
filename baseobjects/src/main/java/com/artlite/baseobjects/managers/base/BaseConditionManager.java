@@ -10,6 +10,7 @@ import com.artlite.baseobjects.managers.abs.AbsConditionManager;
 import com.artlite.baseobjects.models.abs.AbsCondition;
 import com.artlite.baseobjects.models.abs.AbsUniversalObject;
 import com.artlite.bslibrary.helpers.log.BSLogHelper;
+import com.artlite.bslibrary.helpers.validation.BSValidationHelper;
 import com.artlite.bslibrary.managers.BSBaseManager;
 
 import java.util.ArrayList;
@@ -152,5 +153,22 @@ public abstract class BaseConditionManager extends BSBaseManager implements AbsC
             BSLogHelper.log(this, methodName, ex, null);
         }
         return null;
+    }
+
+    /**
+     * Method which provide the registering of the {@link AbsConditionFactory}
+     *
+     * @param requester {@link Class} instance of the requester
+     * @param factory   instance of {@link AbsConditionFactory}
+     * @return adding result
+     */
+    @Override
+    public boolean register(@Nullable final Class requester,
+                            @Nullable final AbsConditionFactory factory) {
+        if (!BSValidationHelper.isNull(requester, factory)) {
+            getCustom().remove(requester);
+            return getCustom().put(requester, factory) != null;
+        }
+        return false;
     }
 }

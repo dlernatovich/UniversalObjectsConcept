@@ -37,6 +37,13 @@ public interface AbsCondition<T, K extends AbsUniversalObject> {
     T getObject();
 
     /**
+     * Method which provide the setting of the {@link Object}
+     *
+     * @param object instance of {@link Object}
+     */
+    void setObject(@Nullable final T object);
+
+    /**
      * Method which provide the applying functional from {@link AbsUniversalObject}
      * for the {@link AbsCondition}
      *
