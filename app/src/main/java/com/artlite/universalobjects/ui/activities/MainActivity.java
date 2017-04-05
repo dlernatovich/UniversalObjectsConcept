@@ -1,5 +1,6 @@
 package com.artlite.universalobjects.ui.activities;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -178,6 +179,17 @@ public class MainActivity extends BSActivity {
                 @Override
                 public void onItemClick(int index,
                                         @NonNull BaseObject object) {
+                    if (object instanceof ConditionUserList.RecycleObject) {
+                        final User user = ((ConditionUserList.RecycleObject) object).getUser();
+                        if (user != null) {
+                            startActivity(CreateUserActivity.class, new OnStartActivityCallback() {
+                                @Override
+                                public void onPreExecute(@NonNull Intent intent) {
+                                    intent.putExtra(CreateUserActivity.K_USER_KEY, user);
+                                }
+                            });
+                        }
+                    }
 
                 }
 

@@ -9,6 +9,7 @@ import com.artlite.baseobjects.models.abs.AbsCondition;
 import com.artlite.baseobjects.models.abs.AbsUniversalObject;
 import com.artlite.bslibrary.helpers.validation.BSValidationHelper;
 import com.artlite.universalobjects.conditions.ConditionCreateUser;
+import com.artlite.universalobjects.conditions.ConditionEditUser;
 import com.artlite.universalobjects.models.User;
 import com.artlite.universalobjects.ui.activities.CreateUserActivity;
 
@@ -44,6 +45,8 @@ public final class FactoryCreateUserActivity extends BaseConditionFactory {
         if (requester == CreateUserActivity.class) {
             if (BSValidationHelper.isEmpty(object)) {
                 return (T) new ConditionCreateUser((User) null);
+            } else {
+                return (T) new ConditionEditUser((User) object);
             }
         }
         return null;

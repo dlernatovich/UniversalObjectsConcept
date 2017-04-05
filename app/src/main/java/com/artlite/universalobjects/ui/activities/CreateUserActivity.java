@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
+import android.widget.Toast;
 
 import com.artlite.adapteredrecyclerview.anotations.FindViewBy;
 import com.artlite.adapteredrecyclerview.callbacks.OnAdapteredBaseCallback;
@@ -18,6 +19,7 @@ import com.artlite.bslibrary.ui.activity.BSActivity;
 import com.artlite.sqlib.core.SQDatabase;
 import com.artlite.universalobjects.R;
 import com.artlite.universalobjects.conditions.ConditionCreateUser;
+import com.artlite.universalobjects.conditions.ConditionEditUser;
 import com.artlite.universalobjects.models.User;
 
 /**
@@ -34,12 +36,18 @@ public class CreateUserActivity extends BSActivity {
      * Instance of {@link RecycleEvent}
      */
     public static final RecycleEvent K_CREATE_USER = new RecycleEvent(100);
+    public static final RecycleEvent K_UPDATE_USER = new RecycleEvent(101);
 
     /**
      * Instance of {@link ConditionView}
      */
     @FindViewBy(id = R.id.view_condition)
     private ConditionView conditionView;
+
+    /**
+     * Instance of {@link User}
+     */
+    private User user;
 
     /**
      * Method which provide the getting of the layout id for {@link CreateUserActivity}
@@ -61,7 +69,7 @@ public class CreateUserActivity extends BSActivity {
         conditionView.init(new GridLayoutManager(this, 1), CreateUserActivity.class,
                 adapteredCallback);
         conditionView.getAdapteredView().setIsNeedResfresh(false);
-        init();
+        init(bundle);
     }
 
     /**
@@ -87,12 +95,15 @@ public class CreateUserActivity extends BSActivity {
     /**
      * Method which provide the initialize of the {@link CreateUserActivity}
      */
-    protected void init() {
+    protected void init(@Nullable final Bundle bundle) {
         background(new BSThreadManager.OnThreadCallback() {
             @Override
             public void onExecute() {
                 if (conditionView != null) {
-                    final BaseObject object = conditionView.getObject(null);
+                    if (bundle != null) {
+                        user = bundle.getParcelable(K_USER_KEY);
+                    }
+                    final BaseObject object = conditionView.getObject(user);
                     if (object != null) {
                         conditionView.getAdapteredView().set(object);
                     }
@@ -153,6 +164,18 @@ public class CreateUserActivity extends BSActivity {
                                     recycleObject.description);
                             SQDatabase.insert(user);
                             onBackPressed();
+                        }
+                    } else if (recycleEvent.equals(K_UPDATE_USER)) {
+                        if (!BSValidationHelper.isEmpty(object)) {
+                            ConditionEditUser.RecycleObject recycleObject =
+                                    (ConditionEditUser.RecycleObject) object;
+                            if ((recycleObject != null) && (recycleObject.getUser() != null)) {
+                                SQDatabase.update(recycleObject.getUser());
+                                onBackPressed();
+                            } else {
+                                Toast.makeText(CreateUserActivity.this,
+                                        "One of required parameters is null", Toast.LENGTH_SHORT);
+                            }
                         }
                     }
                 }

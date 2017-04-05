@@ -90,6 +90,7 @@ public final class User extends BaseUniversalObject<User.Object> implements SQMo
     protected User(Parcel parcel) {
         super(parcel);
         this.object = parcel.readParcelable(User.Object.class.getClassLoader());
+        this.id = parcel.readInt();
     }
 
     /**
@@ -263,6 +264,7 @@ public final class User extends BaseUniversalObject<User.Object> implements SQMo
     public void writeToParcel(Parcel parcel, int flags) {
         super.writeToParcel(parcel, flags);
         parcel.writeParcelable(this.object, flags);
+        parcel.writeInt(this.id);
     }
 
     /**

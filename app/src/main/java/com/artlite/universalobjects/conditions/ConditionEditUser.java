@@ -13,31 +13,28 @@ import com.artlite.baseobjects.constants.ConditionPriority;
 import com.artlite.baseobjects.models.abs.AbsCondition;
 import com.artlite.baseobjects.models.abs.AbsUniversalObject;
 import com.artlite.baseobjects.models.base.BaseCondition;
+import com.artlite.bslibrary.helpers.validation.BSValidationHelper;
 import com.artlite.bslibrary.ui.fonted.BSButton;
-import com.artlite.bslibrary.ui.fonted.BSTextView;
+import com.artlite.bslibrary.ui.fonted.BSEditText;
 import com.artlite.universalobjects.R;
 import com.artlite.universalobjects.models.User;
-import com.artlite.universalobjects.ui.activities.MainActivity;
-
-import java.lang.ref.WeakReference;
-import java.util.List;
+import com.artlite.universalobjects.ui.activities.CreateUserActivity;
 
 /**
- * Class which provide the functional for displaying of the {@link User} as {@link List} object
- * inside the {@link MainActivity}
+ * Created by dlernatovich on 4/4/2017.
  */
 
-public final class ConditionUserList extends BaseCondition<BaseObject, User> {
+public class ConditionEditUser extends BaseCondition<BaseObject, User> {
 
     private String stringId;
-    private BaseObject object;
+    private BaseObject baseObject;
 
     /**
      * Constructor which provide the create {@link AbsCondition} from {@link Object}
      *
-     * @param user instance of the {@link AbsUniversalObject}
+     * @param user instance of the {@link User}
      */
-    public ConditionUserList(@Nullable final User user) {
+    public ConditionEditUser(User user) {
         super(user);
     }
 
@@ -50,7 +47,7 @@ public final class ConditionUserList extends BaseCondition<BaseObject, User> {
     @NonNull
     @Override
     public String getId() {
-        return stringId;
+        return this.stringId;
     }
 
     /**
@@ -65,14 +62,14 @@ public final class ConditionUserList extends BaseCondition<BaseObject, User> {
     }
 
     /**
-     * Method which provide the getting {@link RecycleObject} for the {@link AbsCondition}
+     * Method which provide the getting {@link Object} for the {@link AbsCondition}
      *
-     * @return instance of the {@link RecycleObject} for the {@link AbsCondition}
+     * @return instance of the {@link Object} for the {@link AbsCondition}
      */
     @Nullable
     @Override
     public BaseObject getObject() {
-        return this.object;
+        return this.baseObject;
     }
 
     /**
@@ -82,7 +79,7 @@ public final class ConditionUserList extends BaseCondition<BaseObject, User> {
      */
     @Override
     public void setObject(@Nullable BaseObject object) {
-        this.object = object;
+        this.baseObject = object;
     }
 
     /**
@@ -90,7 +87,7 @@ public final class ConditionUserList extends BaseCondition<BaseObject, User> {
      * for the {@link AbsCondition}
      *
      * @param object instance of the {@link AbsUniversalObject}
-     * @return instance of {@link RecycleObject}
+     * @return instance of {@link Object}
      */
     @Override
     public BaseObject apply(@Nullable User object) {
@@ -108,34 +105,24 @@ public final class ConditionUserList extends BaseCondition<BaseObject, User> {
         return ConditionPriority.HIGHT;
     }
 
-    //==============================================================================================
-    //                                  RECYCLER OBJECT
-    //==============================================================================================
-
-    /**
-     * {@link Class} of the {@link RecycleObject}
-     */
     public static final class RecycleObject extends BaseObject {
 
+        /**
+         * {@link User} field
+         */
         private final User user;
-        protected String fullName;
-        protected String description;
 
         /**
-         * Constructor which provide create {@link RecycleObject} from
+         * Constructor which provide to getting of {@link RecycleObject} form
          *
-         * @param user instance of {@link User}
+         * @param user instance of the {@link User}
          */
-        private RecycleObject(User user) {
+        public RecycleObject(@Nullable final User user) {
             this.user = user;
-            if ((user != null) && (user.getObject() != null)) {
-                this.fullName = user.getObject().getFullName();
-                this.description = user.getObject().getDescription();
-            }
         }
 
         /**
-         * Method which provide to getting of the {@link User} from {@link WeakReference}
+         * Method which provide the getting of the instance of {@link User}
          *
          * @return instance of {@link User}
          */
@@ -152,28 +139,27 @@ public final class ConditionUserList extends BaseCondition<BaseObject, User> {
          */
         @Override
         public BaseRecyclerItem getRecyclerItem(@NonNull Context context) {
-            return new RecycleItem(context);
+            return new RecycleView(context);
         }
     }
 
-    /**
-     * Class which provide the {@link RecycleItem} functional
-     */
-    private static final class RecycleItem extends BaseRecyclerItem<RecycleObject> {
+    private static final class RecycleView extends BaseRecyclerItem<RecycleObject> {
 
-        @FindViewBy(id = R.id.label_full_name)
-        private BSTextView labelFullName;
-        @FindViewBy(id = R.id.label_description)
-        private BSTextView labelDescription;
-        @FindViewBy(id = R.id.button_delete)
-        private BSButton buttonDelete;
+        @FindViewBy(id = R.id.edit_first_name)
+        private BSEditText editName;
+        @FindViewBy(id = R.id.edit_last_name)
+        private BSEditText editLastName;
+        @FindViewBy(id = R.id.edit_description)
+        private BSEditText editDescription;
+        @FindViewBy(id = R.id.button1)
+        private BSButton buttonCreate;
 
         /**
          * Default constructor
          *
          * @param context context to set
          */
-        public RecycleItem(@NonNull Context context) {
+        public RecycleView(@NonNull Context context) {
             super(context);
         }
 
@@ -184,8 +170,9 @@ public final class ConditionUserList extends BaseCondition<BaseObject, User> {
          */
         @Override
         public void setUp(@NonNull RecycleObject baseObject) {
-            this.labelFullName.setText(baseObject.fullName);
-            this.labelDescription.setText(baseObject.description);
+            editName.setText(baseObject.getUser().getObject().getFirstName());
+            editLastName.setText(baseObject.getUser().getObject().getLastName());
+            editDescription.setText(baseObject.getUser().getObject().getDescription());
         }
 
         /**
@@ -195,17 +182,7 @@ public final class ConditionUserList extends BaseCondition<BaseObject, User> {
          */
         @Override
         protected int getLayoutId() {
-            return R.layout.recycle_user_list;
-        }
-
-        /**
-         * Method which provide the getting of the clicked view ID
-         *
-         * @return clicked view ID
-         */
-        @Override
-        protected int getClickedID() {
-            return R.id.content;
+            return R.layout.recycle_create_user;
         }
 
         /**
@@ -214,12 +191,26 @@ public final class ConditionUserList extends BaseCondition<BaseObject, User> {
         @Override
         protected void onCreateView() {
             AdapteredInjector.inject(this);
-            buttonDelete.setOnClickListener(new OnClickListener() {
+            buttonCreate.setText("Update user");
+            buttonCreate.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    sendEvent(MainActivity.K_DELETE_USER);
+                    update();
+                    sendEvent(CreateUserActivity.K_UPDATE_USER);
                 }
             });
+        }
+
+        /**
+         * Method which provide the updating of the {@link User} information
+         */
+        private void update() {
+            if (!BSValidationHelper.isEmpty(objectReference, editDescription, editName, editLastName)) {
+                final RecycleObject object = objectReference.get();
+                object.getUser().getObject().setFirstName(editName.getStringValue());
+                object.getUser().getObject().setLastName(editLastName.getStringValue());
+                object.getUser().getObject().setDescription(editDescription.getStringValue());
+            }
         }
     }
 }
