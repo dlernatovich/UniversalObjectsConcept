@@ -13,7 +13,6 @@ import com.artlite.adapteredrecyclerview.events.RecycleEvent;
 import com.artlite.adapteredrecyclerview.helpers.AdapteredInjector;
 import com.artlite.adapteredrecyclerview.models.BaseObject;
 import com.artlite.baseobjects.views.impl.ConditionView;
-import com.artlite.bslibrary.helpers.validation.BSValidationHelper;
 import com.artlite.bslibrary.managers.BSThreadManager;
 import com.artlite.bslibrary.ui.activity.BSActivity;
 import com.artlite.sqlib.core.SQDatabase;
@@ -155,29 +154,47 @@ public class CreateUserActivity extends BSActivity {
                                              int index,
                                              @NonNull BaseObject object) {
                     if (recycleEvent.equals(K_CREATE_USER)) {
-                        if (!BSValidationHelper.isEmpty(object)) {
-                            ConditionCreateUser.RecycleObject recycleObject =
-                                    (ConditionCreateUser.RecycleObject) object;
-                            final User user = new User(
-                                    recycleObject.name,
-                                    recycleObject.lastName,
-                                    recycleObject.description);
-                            SQDatabase.insert(user);
-                            onBackPressed();
-                        }
+                        onCreateUser(object);
                     } else if (recycleEvent.equals(K_UPDATE_USER)) {
-                        if (!BSValidationHelper.isEmpty(object)) {
-                            ConditionEditUser.RecycleObject recycleObject =
-                                    (ConditionEditUser.RecycleObject) object;
-                            if ((recycleObject != null) && (recycleObject.getUser() != null)) {
-                                SQDatabase.update(recycleObject.getUser());
-                                onBackPressed();
-                            } else {
-                                Toast.makeText(CreateUserActivity.this,
-                                        "One of required parameters is null", Toast.LENGTH_SHORT);
-                            }
-                        }
+                        onUpdateUser(object);
                     }
                 }
             };
+
+    //==============================================================================================
+    //                                          EVENTS
+    //==============================================================================================
+
+    /**
+     * Method which provide the create of the {@link User}
+     *
+     * @param object instance of {@link BaseObject}
+     */
+    private void onCreateUser(@NonNull BaseObject object) {
+        ConditionCreateUser.RecycleObject recycleObject =
+                (ConditionCreateUser.RecycleObject) object;
+        final User user = new User(
+                recycleObject.name,
+                recycleObject.lastName,
+                recycleObject.description);
+        SQDatabase.insert(user);
+        onBackPressed();
+    }
+
+    /**
+     * Method which provide the update {@link User}
+     *
+     * @param object instance of {@link BaseObject}
+     */
+    private void onUpdateUser(@NonNull BaseObject object) {
+        ConditionEditUser.RecycleObject recycleObject =
+                (ConditionEditUser.RecycleObject) object;
+        if ((recycleObject != null) && (recycleObject.getUser() != null)) {
+            SQDatabase.update(recycleObject.getUser());
+            onBackPressed();
+        } else {
+            Toast.makeText(CreateUserActivity.this,
+                    "One of required parameters is null", Toast.LENGTH_SHORT);
+        }
+    }
 }

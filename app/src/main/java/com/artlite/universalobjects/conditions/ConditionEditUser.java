@@ -24,7 +24,7 @@ import com.artlite.universalobjects.ui.activities.CreateUserActivity;
  * Created by dlernatovich on 4/4/2017.
  */
 
-public class ConditionEditUser extends BaseCondition<BaseObject, User> {
+public final class ConditionEditUser extends BaseCondition<BaseObject, User> {
 
     private String stringId;
     private BaseObject baseObject;

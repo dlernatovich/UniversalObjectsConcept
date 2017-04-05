@@ -180,15 +180,7 @@ public class MainActivity extends BSActivity {
                 public void onItemClick(int index,
                                         @NonNull BaseObject object) {
                     if (object instanceof ConditionUserList.RecycleObject) {
-                        final User user = ((ConditionUserList.RecycleObject) object).getUser();
-                        if (user != null) {
-                            startActivity(CreateUserActivity.class, new OnStartActivityCallback() {
-                                @Override
-                                public void onPreExecute(@NonNull Intent intent) {
-                                    intent.putExtra(CreateUserActivity.K_USER_KEY, user);
-                                }
-                            });
-                        }
+                        onUpdateUser(object);
                     }
 
                 }
@@ -217,15 +209,7 @@ public class MainActivity extends BSActivity {
                                              int index,
                                              @NonNull BaseObject object) {
                     if (recycleEvent.equals(K_DELETE_USER)) {
-                        ConditionUserList.RecycleObject recycleObject = (ConditionUserList.RecycleObject) object;
-                        User user = recycleObject.getUser();
-                        if (user == null) {
-                            BSLogHelper.log(MainActivity.class, "onActionReceived", null, "User is null");
-                        } else {
-                            if (SQDatabase.delete(user)) {
-                                conditionView.getAdapteredView().delete(object);
-                            }
-                        }
+                        onDeleteUser(object);
                     }
                 }
             };
@@ -242,4 +226,42 @@ public class MainActivity extends BSActivity {
             onReceiveUsers();
         }
     };
+
+    //==============================================================================================
+    //                                          EVENTS
+    //==============================================================================================
+
+    /**
+     * Method which provide the updating of the {@link User}
+     *
+     * @param object instance of {@link BaseObject}
+     */
+    private void onUpdateUser(@NonNull BaseObject object) {
+        final User user = ((ConditionUserList.RecycleObject) object).getUser();
+        if (user != null) {
+            startActivity(CreateUserActivity.class, new OnStartActivityCallback() {
+                @Override
+                public void onPreExecute(@NonNull Intent intent) {
+                    intent.putExtra(CreateUserActivity.K_USER_KEY, user);
+                }
+            });
+        }
+    }
+
+    /**
+     * Method which provide the deleting of the {@link User}
+     *
+     * @param object instance of {@link BaseObject}
+     */
+    private void onDeleteUser(@NonNull BaseObject object) {
+        ConditionUserList.RecycleObject recycleObject = (ConditionUserList.RecycleObject) object;
+        User user = recycleObject.getUser();
+        if (user == null) {
+            BSLogHelper.log(MainActivity.class, "onActionReceived", null, "User is null");
+        } else {
+            if (SQDatabase.delete(user)) {
+                conditionView.getAdapteredView().delete(object);
+            }
+        }
+    }
 }
