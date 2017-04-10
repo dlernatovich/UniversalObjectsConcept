@@ -4,16 +4,14 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.artlite.baseobjects.constants.ConditionPriority;
 import com.artlite.baseobjects.factory.abs.AbsConditionFactory;
+import com.artlite.baseobjects.helpers.ConditionHelper;
 import com.artlite.baseobjects.managers.abs.AbsConditionManager;
 import com.artlite.baseobjects.models.abs.AbsCondition;
 import com.artlite.baseobjects.models.abs.AbsUniversalObject;
-import com.artlite.bslibrary.helpers.log.BSLogHelper;
 import com.artlite.bslibrary.helpers.validation.BSValidationHelper;
 import com.artlite.bslibrary.managers.BSBaseManager;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,26 +67,7 @@ public abstract class BaseConditionManager extends BSBaseManager implements AbsC
     @NonNull
     @Override
     public List<AbsConditionFactory> getFactories(@Nullable Class requester) {
-        final List<AbsConditionFactory> factories = new ArrayList<>();
-        final Map<Class, AbsConditionFactory> defined = getDefined();
-        final Map<Class, AbsConditionFactory> custom = getCustom();
-        //Get AbsConditionFactory from defined map
-        if (defined.containsKey(requester)) {
-            final AbsConditionFactory factory = defined.get(requester);
-            if (!isNull(factory)) {
-                factories.add(factory);
-            }
-
-        }
-        //Get AbsConditionFactory from custom map
-        if (custom.containsKey(requester)) {
-            final AbsConditionFactory factory = custom.get(requester);
-            if (!isNull(factory)) {
-                factories.add(factory);
-            }
-
-        }
-        return factories;
+        return ConditionHelper.getFactories(getDefined(), getCustom(), requester);
     }
 
     /**
@@ -102,35 +81,7 @@ public abstract class BaseConditionManager extends BSBaseManager implements AbsC
     @Override
     public <T extends AbsCondition> T getCondition(@Nullable Class requester,
                                                    @Nullable AbsUniversalObject object) {
-        final String methodName = "AbsCondition getCondition(requester, object)";
-        final Context context = getContext();
-        try {
-            final List<AbsConditionFactory> factories = getFactories(requester);
-            AbsCondition result = null;
-            for (AbsConditionFactory factory : factories) {
-                if (isNull(factory)) {
-                    continue;
-                }
-                if (isNull(result)) {
-                    result = factory.getCondition(context, requester, object);
-                } else {
-                    AbsCondition other = factory.getCondition(context, requester, object);
-                    if (!isNull(other)) {
-                        final ConditionPriority resultPriority = result.getPriority();
-                        final ConditionPriority otherPriority = other.getPriority();
-                        if (!isNull(resultPriority, otherPriority)) {
-                            if (otherPriority.moreThan(resultPriority)) {
-                                result = other;
-                            }
-                        }
-                    }
-                }
-            }
-            return (T) result;
-        } catch (Exception ex) {
-            BSLogHelper.log(this, methodName, ex, null);
-        }
-        return null;
+        return ConditionHelper.getCondition(getContext(), getDefined(), getCustom(), requester, object);
     }
 
     /**
@@ -143,16 +94,7 @@ public abstract class BaseConditionManager extends BSBaseManager implements AbsC
     @Nullable
     @Override
     public <T> T getObject(@Nullable Class requester, @Nullable AbsUniversalObject object) {
-        final String methodName = "T getCondition(requester, object)";
-        try {
-            final AbsCondition condition = getCondition(requester, object);
-            if (!isNull(condition)) {
-                return (T) condition.getObject();
-            }
-        } catch (Exception ex) {
-            BSLogHelper.log(this, methodName, ex, null);
-        }
-        return null;
+        return ConditionHelper.getObject(getContext(), getDefined(), getCustom(), requester, object);
     }
 
     /**

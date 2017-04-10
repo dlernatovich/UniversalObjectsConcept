@@ -28,6 +28,7 @@ import com.artlite.universalobjects.conditions.ConditionUserList;
 import com.artlite.universalobjects.models.User;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends BSActivity {
@@ -35,7 +36,7 @@ public class MainActivity extends BSActivity {
     /**
      * Instance of delete of the {@link RecycleEvent}
      */
-    public static final RecycleEvent K_DELETE_USER = new RecycleEvent(100);
+    public static final RecycleEvent K_DELETE_USER = RecycleEvent.create("MainActivity:Delete");
 
     /**
      * Field of the {@link AdapteredView}
@@ -60,8 +61,8 @@ public class MainActivity extends BSActivity {
     protected void onCreateActivity(@Nullable final Bundle bundle) {
         setTitle(getString(R.string.text_users));
         AdapteredInjector.inject(this);
-        conditionView.init(new GridLayoutManager(this, 1), MainActivity.class,
-                adapteredCallback, refreshCallback);
+        conditionView.init(new GridLayoutManager(this, 1),
+                MainActivity.class, adapteredCallback, refreshCallback);
         conditionView.getAdapteredView().setIsNeedResfresh(true);
     }
 
@@ -154,6 +155,7 @@ public class MainActivity extends BSActivity {
                             baseObjects.add(object);
                         }
                     }
+                    Collections.reverse(baseObjects);
                     view.getAdapteredView().set(baseObjects);
                     view.getAdapteredView().hideRefresh();
                 }

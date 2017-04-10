@@ -32,10 +32,13 @@ public class CreateUserActivity extends BSActivity {
     public static final String K_USER_KEY = "CreateUserActivity:K_USER_KEY";
 
     /**
-     * Instance of {@link RecycleEvent}
+     * Instance of {@link RecycleEvent} for create user
      */
-    public static final RecycleEvent K_CREATE_USER = new RecycleEvent(100);
-    public static final RecycleEvent K_UPDATE_USER = new RecycleEvent(101);
+    public static final RecycleEvent K_CREATE_USER = RecycleEvent.create("CreateUserActivity:Create");
+    /**
+     * Instance of {@link RecycleEvent} for update user
+     */
+    public static final RecycleEvent K_UPDATE_USER = RecycleEvent.create("CreateUserActivity:Update");
 
     /**
      * Instance of {@link ConditionView}
