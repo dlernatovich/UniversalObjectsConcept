@@ -1,6 +1,9 @@
 package com.artlite.baseobjects.views.base;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,12 +16,17 @@ import com.artlite.adapteredrecyclerview.callbacks.OnAdapteredBaseCallback;
 import com.artlite.adapteredrecyclerview.callbacks.OnAdapteredPagingCallback;
 import com.artlite.adapteredrecyclerview.callbacks.OnAdapteredRefreshCallback;
 import com.artlite.adapteredrecyclerview.core.AdapteredView;
+import com.artlite.adapteredrecyclerview.helpers.ColorHelper;
+import com.artlite.adapteredrecyclerview.models.BaseObject;
 import com.artlite.baseobjects.R;
 import com.artlite.baseobjects.managers.impl.ConditionManager;
 import com.artlite.baseobjects.models.abs.AbsCondition;
 import com.artlite.baseobjects.models.abs.AbsUniversalObject;
 import com.artlite.baseobjects.views.abs.AbsConditionView;
 import com.artlite.bslibrary.ui.view.BSView;
+
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Base implementation of the {@link AbsConditionView}
@@ -216,4 +224,133 @@ public class BaseConditionView extends BSView implements AbsConditionView {
         init(new GridLayoutManager(getContext(), 1,
                 LinearLayoutManager.VERTICAL, false), getRequester(), null, null, null);
     }
+
+    /**
+     * Method which provide the setting of the {@link BaseObject} inside the {@link AdapteredView}
+     *
+     * @param object instance of the {@link BaseObject}
+     */
+    public final void set(@Nullable BaseObject object) {
+        getAdapteredView().set(object);
+    }
+
+//    public final void set(@Nullable List<BaseObject> objects) {
+//        this.recyclerView.set(objects);
+//    }
+//
+//    public final void add(@Nullable T object) {
+//        this.recyclerView.add(object);
+//    }
+//
+//    public final void add(@Nullable List<T> objects) {
+//        this.recyclerView.add(objects);
+//    }
+//
+//    public final boolean delete(@Nullable T object) {
+//        return this.recyclerView.delete(object);
+//    }
+//
+//    public final void delete(@Nullable T[] objects) {
+//        this.recyclerView.delete(objects);
+//    }
+//
+//    public final void clear() {
+//        this.recyclerView.clear();
+//    }
+//
+//    public void update(@Nullable T object) {
+//        this.recyclerView.update(object);
+//    }
+//
+//    public void update(int index) {
+//        this.recyclerView.update(index);
+//    }
+//
+//    @Nullable
+//    public final T getItem(int index) {
+//        return this.recyclerView.getItem(index);
+//    }
+//
+//    public final int getIndex(@Nullable T object) {
+//        return this.recyclerView.getIndex(object);
+//    }
+//
+//    @NonNull
+//    public List<T> getListItems() {
+//        return this.recyclerView.getListItems();
+//    }
+//
+//    public int getListSize() {
+//        return this.getListItems() != null ? this.getListItems().size() : 0;
+//    }
+//
+//    public void sort() {
+//        if (this.recyclerView != null) {
+//            this.recyclerView.sort();
+//        }
+//
+//    }
+//
+//    public <K extends Comparator> void sort(@NonNull K comparator, boolean isReverse) {
+//        if (this.recyclerView != null) {
+//            this.recyclerView.sort(comparator, isReverse);
+//        }
+//
+//    }
+//
+//    public void notifyDataSetChanged() {
+//        if (this.recyclerView != null) {
+//            this.recyclerView.notifyDataSetChanged();
+//        }
+//
+//    }
+//
+//    public void setActionCallback(@Nullable OnAdapteredBaseCallback callback) {
+//        if (callback != null) {
+//            this.recyclerView.setActionCallback(callback);
+//        }
+//
+//    }
+//
+//    public void setPagingCallback(@Nullable OnAdapteredPagingCallback callback) {
+//        if (callback != null) {
+//            this.recyclerView.setPagingCallback(callback);
+//        }
+//
+//    }
+//
+//    public void setRefreshCallback(@Nullable OnAdapteredRefreshCallback callback) {
+//        if (callback != null) {
+//            this.refreshCallback = callback;
+//        }
+//
+//    }
+//
+//    public void setIsNeedResfresh(boolean isNeedResfresh) {
+//        this.refreshLayout.setEnabled(isNeedResfresh);
+//    }
+//
+//    public void setRefreshColoursInt(@ColorInt int backgroundColor, @ColorInt int refreshColor) {
+//        ColorStateList background = ColorHelper.getColorStateList(backgroundColor);
+//        ColorStateList refresh = ColorHelper.getColorStateList(refreshColor);
+//        this.setRefreshColoursRes(background, refresh);
+//    }
+//
+//    public void setRefreshColoursRes(@ColorRes int backgroundColor, @ColorRes int refreshColor) {
+//        ColorStateList background = ColorHelper.getColorStateList(backgroundColor, this.getContext());
+//        ColorStateList refresh = ColorHelper.getColorStateList(refreshColor, this.getContext());
+//        this.setRefreshColoursRes(background, refresh);
+//    }
+//
+//    public void setRefreshColoursRes(@Nullable ColorStateList backgroundColor, @Nullable ColorStateList refreshColor) {
+//        int[] focusedState = new int[]{16842908};
+//        if (refreshColor != null && this.refreshLayout != null) {
+//            this.refreshLayout.setColorSchemeColors(new int[]{refreshColor.getColorForState(focusedState, 17170444)});
+//        }
+//
+//        if (backgroundColor != null && this.refreshLayout != null) {
+//            this.refreshLayout.setProgressBackgroundColorSchemeColor(backgroundColor.getColorForState(focusedState, 17170443));
+//        }
+//
+//    }
 }
